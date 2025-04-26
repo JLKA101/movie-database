@@ -27,7 +27,8 @@ class UI {
     static addMovie = (m) => {
         const list = document.getElementById("tbod")
         const row = document.createElement("tr")
-        row.innerHTML = `<td>${m.title}</td><td>${m.director}</td><td>${m.year}</td><td><button class="btn btn-danger">Delete</button></td>`
+        row.dataset.movieId = m.id
+        row.innerHTML = `<td>${m.title}</td><td>${m.director}</td><td>${m.year}</td><td><button class="btn btn-danger delete-btn">Delete</button></td>`
         list.appendChild(row)
     }
     static displayMovies = () => {
@@ -45,3 +46,17 @@ function collect_data (e) {
     UI.addMovie(movie)
 }
 document.getElementById("submit").addEventListener("click", collect_data)
+
+function deleteMovie (e) {
+    if (e.target && e.target.matches("button.delete-btn")) {
+        Delete(e.target.closest("tr").dataset.movieId)
+    }
+}
+
+function Delete (movieId) {
+    movieElement = document.querySelector(`tr[data-movie-id ="${movieId}"]`)
+    if (movieElement) {
+        movieElement.remove()
+    }
+}
+document.getElementById("tbod").addEventListener("click", deleteMovie)
